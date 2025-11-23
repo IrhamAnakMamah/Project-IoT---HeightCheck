@@ -53,13 +53,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       <div style="margin: 50px 0;">
           <p>Masukkan Tinggi (Simulasi Sensor)</p>
-          <input type="number" name="tinggi" step="0.1" placeholder="0" style="font-size: 3rem; text-align: center; border: none; background: transparent; width: 150px;" required>
           <span style="font-size: 1.5rem;">CM</span>
           <p>....................................</p>
       </div>
 
       <div style="display: flex; justify-content: space-between; align-items: center; gap: 20px;">
           <a href="index.php" class="btn btn-black">Kembali</a>
+          <a href="index.php" class="btn btn-black">Cek Tinggi</a>
           <a href="simpan.php" class="btn btn-black">Simpan</a>
       </div>
     </form>
