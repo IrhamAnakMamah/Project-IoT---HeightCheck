@@ -10,7 +10,7 @@ $nama           = $input_esp['nama'] ?? 'User IoT';
 
 // 2. PROSES LOGIKA (Hitung Tinggi)
 // Rumus: 200cm - Jarak Terbaca
-$tinggi_bersih = 200 - $jarak_sensor;
+$tinggi_bersih = 204.5 - $jarak_sensor;
 if ($tinggi_bersih < 0) $tinggi_bersih = 0;
 
 // 3. SIAPKAN DATA UNTUK DISIMPAN
