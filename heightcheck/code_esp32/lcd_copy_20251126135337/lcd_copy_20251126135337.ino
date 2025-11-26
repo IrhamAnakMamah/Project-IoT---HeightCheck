@@ -7,12 +7,16 @@
 const char* ssid = "advan"; 
 const char* password = "kontolbanget";
 
+const int ledM = 25;
+const int ledK = 26;
+const int ledH = 27;
+
 // IP Address Laptop (Server XAMPP)
 // Pastikan path-nya benar menuju file yang baru dibuat tadi
-String urlDatabase = "http://192.168.X.X/project_iot/Project-IoT---HeightCheck/heightcheck/config/api_latest.php";
+String urlDatabase = "http://10.14.115.150/project_iot/Project-IoT---HeightCheck/heightcheck/config/api_latest.php";
 
 // IP Address ESP A (Untuk Trigger Sensor)
-String urlSensor   = "http://192.168.1.5/ukur"; 
+String urlSensor   = "http://10.14.115.128/ukur"; 
 
 // ===============================================
 
@@ -26,6 +30,10 @@ void setup() {
   Serial.begin(115200);
   pinMode(butt, INPUT_PULLUP);
   
+  pinMode(ledM, OUTPUT);
+  pinMode(ledK, OUTPUT);
+  pinMode(ledH, OUTPUT);
+
   lcd.init();
   lcd.backlight();
   
@@ -37,15 +45,18 @@ void setup() {
   }
   lcd.clear();
   lcd.print("Siap Monitor!");
+  digitalWrite(ledM, 1);
 }
 
 void loop() {
   // 1. FITUR TOMBOL (Trigger Manual)
   if (digitalRead(butt) == LOW) {
     lcd.clear();
+    digitalWrite(ledK, 1);
     lcd.print("Mengukur...");
     triggerSensor(); 
     delay(2000); // Debounce
+    digitalWrite(ledK, 0);
   }
 
   // 2. FITUR AUTO-UPDATE (Cek Database tiap 3 detik)
@@ -62,6 +73,7 @@ void triggerSensor() {
     http.begin(urlSensor);
     int httpCode = http.GET(); // Hanya trigger, hasilnya nanti diambil lewat database
     http.end();
+    digitalWrite(ledK, 1);
   }
 }
 
@@ -102,11 +114,13 @@ void cekDataTerbaru() {
            // Format waktu biasanya YYYY-MM-DD HH:MM:SS
            String jam = waktuVal.substring(11, 16); 
            lcd.print("Jam: " + jam);
+           digitalWrite(ledH, 1);
            
            lastTimeData = waktuVal; // Simpan waktu agar tidak refresh terus
         }
       }
     }
     http.end();
+    digitalWrite(ledH, 0);
   }
 }
